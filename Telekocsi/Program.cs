@@ -97,14 +97,26 @@ namespace Telekocsi
         static void feladat5()
         {
             Console.WriteLine("\n5. feladat:");
+            
             foreach (var i in igenyek)
             {
-                foreach (var a in autok)
+                /*foreach (var a in autok)
                 {
                     if (i.IndulasI==a.IndulasA && i.CelI==a.CelA)
                     {
-                        Console.WriteLine($"   {i.Azonosito} => {a.Rendszam}");
+                        Console.WriteLine($"   {i.Azonosito} => {a.Rendszam}");    
                     }
+                }*/
+                int w = 0;
+                while (w < autok.Count &&
+                    !( i.IndulasI == autok[w].IndulasA 
+                    && i.CelI == autok[w].CelA && i.Szemelyek <= autok[w].Ferohely))
+                {
+                    w++;
+                }
+                if (w<autok.Count)
+                {
+                    Console.WriteLine($"   {i.Azonosito} => {autok[w].Rendszam}");
                 }
             }
         }
@@ -113,22 +125,27 @@ namespace Telekocsi
         {
 
             StreamWriter sw = new StreamWriter("utasuzenetek.txt");
-            
-            foreach (var a in autok)
+
+            foreach (var i in igenyek)
             {
-                foreach (var i in igenyek)
+                
+                int w = 0;
+                while (w < autok.Count &&
+                    !(i.IndulasI == autok[w].IndulasA
+                    && i.CelI == autok[w].CelA
+                    && i.Szemelyek <= autok[w].Ferohely))
                 {
-                    
-                    if (i.IndulasI != a.IndulasA && i.CelI != a.CelA)
-                    {
-                        
-                        sw.WriteLine($"{i.Azonosito}: Sajnos nem sikerült autót találni.");
-                    }
-                    else
-                    {
-                        sw.WriteLine($"{i.Azonosito}: Rendszám: {a.Rendszam}, Telefonszám: {a.Telefonszam}");
-                    }
+                    w++;
                 }
+                if (w < autok.Count)
+                {
+                    sw.WriteLine($"{i.Azonosito}: Rendszám: {autok[w].Rendszam}, Telefonszám: {autok[w].Telefonszam}");
+                }
+                else
+                {
+                    sw.WriteLine($"{i.Azonosito}: Sajnos nem sikerült autót találni.");
+                }
+
             }
             sw.Close();
         }
@@ -139,8 +156,8 @@ namespace Telekocsi
             feladat2();
             feladat3();
             feladat4();
-            //feladat5();
-            //feladat6();
+            feladat5();
+            feladat6();
             Console.ReadKey();
         }
     }
