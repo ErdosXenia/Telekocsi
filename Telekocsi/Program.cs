@@ -53,28 +53,45 @@ namespace Telekocsi
 
         static void feladat4()
         {
-            List<string> utvonalak = new List<string>();
-            /*int max = 0;
-            string utvonal;
+            Console.WriteLine($"\n4. Feladat: ");
+            /*Dictionary<string, int> utvonalak = new Dictionary<string, int>();
             foreach (var a in autok)
             {
-                if (max < a.Ferohely)
+                if (!utvonalak.ContainsKey(a.Utvonal))
                 {
-                    max = a.Ferohely;
-                    utvonal = a.IndulasA + "-" + a.CelA;
+                    utvonalak.Add(a.Utvonal, a.Ferohely);
                 }
-                
-            }
-            /*Console.Write("A legtöbb férőhelyet ({0}-ot)", max);
-
-            foreach (var a in autok)
-            {
-                if (a.Ferohely==max)
+                else
                 {
-                    Console.WriteLine($"a {a.IndulasA}-{a.CelA} útvonalon ajánlották fel a hirdetők");
+                    utvonalak[a.Utvonal] += a.Ferohely;
+                }
+            }*/
+            int max = 0;
+            string utv = "";
+            /*foreach (var u in utvonalak)
+            {
+                if (u.Value>max)
+                {
+                    max = u.Value;
+                    utv = u.Key;
                 }
             }*/
 
+            var utvonalak = from a in autok
+                            orderby a.Utvonal
+                            group a by a.Utvonal into temp
+                            select temp;
+
+            foreach (var ut in utvonalak)
+            {
+                int fh = ut.Sum(x => x.Ferohely);
+                if (max < fh)
+                {
+                    max = fh;
+                    utv = ut.Key;
+                }
+            }
+            Console.WriteLine($"   {max} - {utv}");
         }
 
         static void feladat5()
@@ -121,9 +138,9 @@ namespace Telekocsi
             Beolvas();
             feladat2();
             feladat3();
-            //feladat4();
-            feladat5();
-            feladat6();
+            feladat4();
+            //feladat5();
+            //feladat6();
             Console.ReadKey();
         }
     }

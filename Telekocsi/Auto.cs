@@ -13,6 +13,7 @@ namespace Telekocsi
         public string Rendszam { get;private set; }
         public string Telefonszam { get;private set; }
         public int Ferohely { get;private set; }
+        public string Utvonal { get;private set; }
 
         public Auto(string sor)
         {
@@ -22,6 +23,7 @@ namespace Telekocsi
             Rendszam = a[2];
             Telefonszam = a[3];
             Ferohely = Convert.ToInt32(a[4]);
+            Utvonal = IndulasA + "-" + CelA;
         }
     }
 }
