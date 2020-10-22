@@ -98,25 +98,15 @@ namespace Telekocsi
         {
             Console.WriteLine("\n5. feladat:");
             
-            foreach (var i in igenyek)
+            foreach (var ig in igenyek)
             {
-                /*foreach (var a in autok)
+              
+                int i = ig.VanAuto(autok);
+
+                
+                if (i > -1)
                 {
-                    if (i.IndulasI==a.IndulasA && i.CelI==a.CelA)
-                    {
-                        Console.WriteLine($"   {i.Azonosito} => {a.Rendszam}");    
-                    }
-                }*/
-                int w = 0;
-                while (w < autok.Count &&
-                    !( i.IndulasI == autok[w].IndulasA 
-                    && i.CelI == autok[w].CelA && i.Szemelyek <= autok[w].Ferohely))
-                {
-                    w++;
-                }
-                if (w<autok.Count)
-                {
-                    Console.WriteLine($"   {i.Azonosito} => {autok[w].Rendszam}");
+                    Console.WriteLine($"   {ig.Azonosito} => {autok[i].Rendszam}");
                 }
             }
         }
@@ -126,24 +116,17 @@ namespace Telekocsi
 
             StreamWriter sw = new StreamWriter("utasuzenetek.txt");
 
-            foreach (var i in igenyek)
+            foreach (var ig in igenyek)
             {
                 
-                int w = 0;
-                while (w < autok.Count &&
-                    !(i.IndulasI == autok[w].IndulasA
-                    && i.CelI == autok[w].CelA
-                    && i.Szemelyek <= autok[w].Ferohely))
+                int i = ig.VanAuto(autok);
+                if (i > -1)
                 {
-                    w++;
-                }
-                if (w < autok.Count)
-                {
-                    sw.WriteLine($"{i.Azonosito}: Rendszám: {autok[w].Rendszam}, Telefonszám: {autok[w].Telefonszam}");
+                    sw.WriteLine($"{ig.Azonosito}: Rendszám: {autok[i].Rendszam}, Telefonszám: {autok[i].Telefonszam}");
                 }
                 else
                 {
-                    sw.WriteLine($"{i.Azonosito}: Sajnos nem sikerült autót találni.");
+                    sw.WriteLine($"{ig.Azonosito}: Sajnos nem sikerült autót találni.");
                 }
 
             }
